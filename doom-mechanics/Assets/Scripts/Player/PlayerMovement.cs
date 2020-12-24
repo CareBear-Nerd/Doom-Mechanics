@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Speed/Accelration")]
     public float walkSpeed = 6.0f;
+    public float gravity = -9.8f;
     [Range(0.0f,1.0f)] public float moveAccel = 0.5f; 
     
 	#endregion

@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] Transform playerCameraPivot = null;
     [SerializeField] bool lockCursor = true;
 
-    float cameraPitch, lookSensX, lookSensY;
+    float cameraPitch, velY, lookSensX, lookSensY;
     CharacterController controller = null;
 
 	Vector2 currentDir, currentDirVel, currentLookDelta, currentLookDeltaVel = Vector2.zero;
@@ -68,7 +68,13 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 targetDir = inputs.moveAxis;
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVel, movement.moveAccel);
-        Vector3 vel = (transform.forward * currentDir.y + transform.right * currentDir.x) * movement.walkSpeed;
+
+        if (controller.isGrounded)
+            velY = 0.0f;
+
+        velY += movement.gravity * Time.deltaTime;
+
+        Vector3 vel = (transform.forward * currentDir.y + transform.right * currentDir.x) * movement.walkSpeed + Vector3.up * velY;
         controller.Move(vel * Time.deltaTime);
     }
 }
