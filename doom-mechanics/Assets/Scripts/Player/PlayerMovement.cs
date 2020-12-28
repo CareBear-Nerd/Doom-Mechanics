@@ -15,11 +15,18 @@ public class PlayerMovement : MonoBehaviour
     public float lookSensitivityY = 1.0f;
     [Range(0.0f,1.0f)] public float lookSmoothTime = 0.5f; 
 
-    [Header("Speed/Accelration")]
-    public float walkSpeed = 6.0f;
+    [Header("Movement Profile")]
+    public MovementProfile moveProf;
+
+    [Header("Speed/Accelration Settings")]
+    public float walkSpeed = 0.0f;
     public float gravity = -9.8f;
-    [Range(0.0f,1.0f)] public float moveAccel = 0.5f; 
+    [Range(0.0f,1.0f)] public float moveAccel = 0.0f; 
     
+    [Header("Jump Settings")]
+    public float jumpHeight = 0.0f;
+    public int maxJumps = 1;
+
 	#endregion
 
     /*void FixedUpdate()
@@ -30,4 +37,18 @@ public class PlayerMovement : MonoBehaviour
             lookSensitivityY = lookSensitivity;
         }
     }*/
+
+    void Awake() 
+    {
+        if (moveProf!=null)
+        {
+            gravity = moveProf.gravity;
+            walkSpeed = moveProf.walkSpeed;
+            moveAccel = moveProf.moveAccel;
+            // = moveProf.airAccel;
+            jumpHeight = moveProf.jumpHeight;
+            maxJumps = moveProf.maxJumps;
+            Debug.Log("Applied movement profile: " + moveProf.profName);
+        }
+    }
 }
